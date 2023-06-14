@@ -1,24 +1,85 @@
-import { Component, OnInit } from '@angular/core';
-import { takeUntil, filter, bufferTime, Subject, interval } from 'rxjs';
-import { FormControl, Validators } from '@angular/forms';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  AfterViewInit,
+  ChangeDetectionStrategy,
+} from '@angular/core';
+import { FormControl, Validators, FormGroup } from '@angular/forms';
 import { frameworksMockData } from 'src/app/mockData/mockData';
+import { MatSelectChange } from '@angular/material/select';
+import { MatTableDataSource, MatTable } from '@angular/material/table';
 
 @Component({
   selector: 'app-main-page',
   templateUrl: './main-page.component.html',
   styleUrls: ['./main-page.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MainPageComponent implements OnInit {
+export class MainPageComponent implements OnInit, AfterViewInit {
+  @ViewChild(MatTable) table!: MatTable<any>;
   showTask: boolean = false;
-  emailFormControl!: FormControl;
-  date!: FormControl;
   selectData = frameworksMockData;
   selectDataKeys = Object.keys(this.selectData);
+  versionArray!: string[];
+  hobbyArray: any[] = [];
+  dataSource!: MatTableDataSource<any>;
+  hobbyName!: FormControl;
+  hobbyDuration!: FormControl;
+  form!: FormGroup;
+  constructor() {
+    this.dataSource = new MatTableDataSource(this.hobbyArray);
+  }
   ngOnInit() {
-    this.date = new FormControl();
-    this.emailFormControl = new FormControl('', [
-      Validators.required,
-      Validators.email,
-    ]);
+    this.form = new FormGroup({
+      firstName: new FormControl('', Validators.required),
+      lastName: new FormControl('', Validators.required),
+      dateOfBirth: new FormControl('', Validators.required),
+      framework: new FormControl('', Validators.required),
+      frameworkVersion: new FormControl(
+        { value: this.versionArray, disabled: true },
+        Validators.required,
+      ),
+      email: new FormControl('', [Validators.required, Validators.email]),
+      hobby: new FormControl({}),
+    });
+    this.hobbyName = new FormControl('', Validators.required);
+    this.hobbyDuration = new FormControl('', Validators.required);
+  }
+
+  public OnSubmit() {
+    console.log(this.form.value);
+  }
+
+  public frameworkSelected(event: MatSelectChange) {
+    this.versionArray = this.selectData[event.value];
+    this.form.get('frameworkVersion')?.enable();
+    this.form.get('frameworkVersion')?.setValue('');
+  }
+
+  public addHobby() {
+    const newHobby = {
+      name: this.hobbyName.value,
+      duration: this.hobbyDuration.value,
+    };
+    this.hobbyArray.push(newHobby!);
+    this.dataSource.data = this.hobbyArray;
+    if (this.table) this.table.renderRows();
+    this.form.get('hobby')?.setValue(this.hobbyArray);
+    this.hobbyName.reset();
+    this.hobbyDuration.reset();
+  }
+
+  public removeHobby(i: number) {
+    this.hobbyArray = this.hobbyArray.filter((item, index) => index !== i);
+    this.dataSource.data = this.hobbyArray;
+    if (this.table) this.table.renderRows();
+    this.form.get('hobby')?.setValue(this.hobbyArray);
+  }
+
+  ngAfterViewInit() {
+    if (this.table) {
+      this.table!.renderRows();
+    }
   }
 }

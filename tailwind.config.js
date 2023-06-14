@@ -200,15 +200,7 @@ module.exports = {
           gray2: '#E1E1E1',
         },
       },
-      backgroundImage: {
-        404: 'url("/assets/images/404.svg")',
-        about: 'url("/assets/images/about block/about_image.jpg")',
-        checkbox: 'url("/assets/icons/contacts/checked.svg")',
-        gradientFirstBanner:
-          'linear-gradient(90deg, #6e285f 29.77%, rgba(110, 40, 95, 0.991615) 33.93%, rgba(110, 40, 95, 0.967585) 37.31%, rgba(110, 40, 95, 0.9296) 40.04%, rgba(110, 40, 95, 0.879348) 42.23%, rgba(110, 40, 95, 0.818519) 44.01%, rgba(110, 40, 95, 0.7488) 45.49%, rgba(110, 40, 95, 0.671881) 46.79%, rgba(110, 40, 95, 0.589452) 48.03%, rgba(110, 40, 95, 0.5032) 49.33%, rgba(110, 40, 95, 0.414815) 50.81%, rgba(110, 40, 95, 0.325985) 52.58%, rgba(110, 40, 95, 0.2384) 54.78%, rgba(110, 40, 95, 0.153748) 57.51%, rgba(110, 40, 95, 0.0737185) 60.89%, rgba(110, 40, 95, 0) 65.05%)',
-        mobilegradienFirstBanner:
-          'linear-gradient(360deg, #6e285f 29.77%, rgba(110, 40, 95, 0.991615) 33.93%, rgba(110, 40, 95, 0.967585) 37.31%, rgba(110, 40, 95, 0.9296) 40.04%, rgba(110, 40, 95, 0.879348) 42.23%, rgba(110, 40, 95, 0.818519) 44.01%, rgba(110, 40, 95, 0.7488) 45.49%, rgba(110, 40, 95, 0.671881) 46.79%, rgba(110, 40, 95, 0.589452) 48.03%, rgba(110, 40, 95, 0.5032) 49.33%, rgba(110, 40, 95, 0.414815) 50.81%, rgba(110, 40, 95, 0.325985) 52.58%, rgba(110, 40, 95, 0.2384) 54.78%, rgba(110, 40, 95, 0.153748) 57.51%, rgba(110, 40, 95, 0.0737185) 60.89%, rgba(110, 40, 95, 0) 65.05%)',
-      },
+      backgroundImage: {},
       borderRadius: {
         8: '8px',
         10: '10px',
@@ -339,65 +331,6 @@ module.exports = {
         ],
       },
 
-      keyframes: {
-        'flower-pulse': {
-          '12.5%, 25%': {
-            'animation-timing-function': 'ease-in',
-            transform: 'scale(1)',
-          },
-          '18.75%': {
-            'animation-timing-function': 'ease-in',
-            transform: 'scale(1.32)',
-          },
-        },
-        'menu-appear': {
-          '0%': {
-            opacity: '0',
-            visibility: 'hidden',
-            height: 0,
-          },
-          '100%': {
-            opacity: '1',
-            visibility: 'visible',
-            height: 'auto',
-          },
-        },
-        'menu-hide': {
-          '0%': {
-            opacity: 1,
-            // visibility: "visible",
-            height: 'auto',
-          },
-
-          ' 100% ': {
-            opacity: 0,
-            // visibility: "hidden",
-            height: 0,
-          },
-        },
-        'error-appear': {
-          '0%': {
-            opacity: '0',
-            transform: 'translateY(-20px)',
-          },
-          '100%': {
-            opacity: '1',
-            transform: 'translateY(0px)',
-          },
-        },
-      },
-      animation: {
-        'flower-pulse': 'flower-pulse  1s linear infinite',
-        'menu-appear': 'menu-appear  0.3s ease-in-out ',
-        'menu-hide': 'menu-hide  0.3s ease-in-out ',
-        'error-appear': 'error-appear  0.3s ease-in-out ',
-      },
-
-      boxShadow: {
-        cookies: '0px 0px 40px rgba(69, 69, 69, 0.2)',
-        'prevention-card': '0px 4px 15px rgba(0, 0, 0, 0.1)',
-        checkbox: '0 0 0 0.1em rgba(225, 50, 110, 1)',
-      },
     },
   },
 };

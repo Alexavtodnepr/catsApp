@@ -1,21 +1,12 @@
-<div class="content-container mt-5">
-  <div class="flex justify-center">
-    <button
-      class="bg-accent-base p-2 rounded-10 mx-10"
-      (click)="startStopTimer()">
-      {{ timerRunning ? 'Stop' : 'Start' }}
-    </button>
-    <button class="bg-accent-base p-2 rounded-10 mx-10" (click)="waitTimer()">
-      Wait
-    </button>
-    <button class="bg-accent-base p-2 rounded-10 mx-10" (click)="resetTimer()">
-      Reset
-    </button>
-  </div>
-
-  <div class="flex justify-center">{{ displayTime }}</div>
+<button mat-button color="primary" class="w-40" (click)="showTask = !showTask">
+  {{ !showTask ? 'Show task 2' : 'Hide task 2' }}
+</button>
+<div
+  *ngIf="showTask"
+  class="content-container mt-5 transition-all duration-500 delay-200">
+  <app-timer></app-timer>
 </div>
-<form class="flex flex-col">
+<form class="flex flex-col mt-10 sm:px-5 px-2">
   <mat-form-field class="example-full-width">
     <mat-label>Name</mat-label>
     <input
@@ -74,7 +65,7 @@
   <mat-form-field>
     <mat-label>Version</mat-label>
     <mat-select>
-      <mat-option *ngFor="let food of selectData.angular" [value]="food">
+      <mat-option *ngFor="let food of selectData['angular']" [value]="food">
         {{ food }}
       </mat-option>
     </mat-select>

@@ -1,0 +1,15 @@
+<div class="flex justify-center">
+  <button
+    class="bg-accent-base p-2 rounded-10 mx-10"
+    (click)="startStopTimer()">
+    {{ timerRunning ? 'Stop' : 'Start' }}
+  </button>
+  <button class="bg-accent-base p-2 rounded-10 mx-10" (click)="waitTimer()">
+    Wait
+  </button>
+  <button class="bg-accent-base p-2 rounded-10 mx-10" (click)="resetTimer()">
+    Reset
+  </button>
+</div>
+
+<div class="flex justify-center">{{ displayTime }}</div>

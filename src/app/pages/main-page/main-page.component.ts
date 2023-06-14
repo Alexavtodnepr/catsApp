@@ -16,8 +16,9 @@ import { MatTableDataSource, MatTable } from '@angular/material/table';
   styleUrls: ['./main-page.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MainPageComponent implements OnInit, AfterViewInit {
+export class MainPageComponent implements OnInit {
   @ViewChild(MatTable) table!: MatTable<any>;
+
   showTask: boolean = false;
   selectData = frameworksMockData;
   selectDataKeys = Object.keys(this.selectData);
@@ -75,11 +76,5 @@ export class MainPageComponent implements OnInit, AfterViewInit {
     this.dataSource.data = this.hobbyArray;
     if (this.table) this.table.renderRows();
     this.form.get('hobby')?.setValue(this.hobbyArray);
-  }
-
-  ngAfterViewInit() {
-    if (this.table) {
-      this.table!.renderRows();
-    }
   }
 }

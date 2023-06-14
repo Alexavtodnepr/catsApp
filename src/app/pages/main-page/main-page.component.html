@@ -80,7 +80,7 @@
   </mat-form-field>
 
   <div>
-    <div>Hobbies:</div>
+    <div class="text-h2-heading">Hobbies:</div>
 
     <mat-error *ngIf="hobbyArray.length === 0">
       Must have at least one hobby
@@ -125,12 +125,12 @@
     </mat-table>
     <div class="flex flex-row my-10">
       <mat-form-field class="px-5">
-        <mat-label>Name of hobbies</mat-label>
-        <input matInput placeholder="Ex. Pizza" [formControl]="hobbyName" />
+        <mat-label>Name of hobby</mat-label>
+        <input matInput placeholder="Name" [formControl]="hobbyName" />
       </mat-form-field>
       <mat-form-field class="px-5">
         <mat-label>Duration</mat-label>
-        <input matInput placeholder="Ex. Pizza" [formControl]="hobbyDuration" />
+        <input matInput placeholder="Duration" [formControl]="hobbyDuration" />
       </mat-form-field>
       <div class="example-button-container">
         <button

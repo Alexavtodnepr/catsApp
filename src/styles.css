@@ -1,0 +1,32 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  max-width: 1180px;
+  margin: 0 auto;
+}
+html {
+  scroll-behavior: smooth;
+}
+
+@layer components {
+  .wide-container {
+    @apply mx-auto  w-full 3xl:max-w-[1920px];
+  }
+  .content-container {
+    @apply mx-auto xl:w-295 md:w-210 w-full;
+  }
+  .shading {
+    @apply z-10  bg-gray-dark opacity-20 w-screen h-screen absolute left-[calc(50%_-_50vw)] top-15;
+  }
+  .menu-background {
+    @apply -z-10  bg-gray-white border-b-gray-medium-low border-b w-[1260px] h-full absolute left-[calc(50%_-_630px)] rounded-b-30 top-0;
+  }
+}

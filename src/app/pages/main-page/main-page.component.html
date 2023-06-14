@@ -1,1 +1,113 @@
-<p>main-page works!</p>
+<div class="content-container mt-5">
+  <div class="flex justify-center">
+    <button
+      class="bg-accent-base p-2 rounded-10 mx-10"
+      (click)="startStopTimer()">
+      {{ timerRunning ? 'Stop' : 'Start' }}
+    </button>
+    <button class="bg-accent-base p-2 rounded-10 mx-10" (click)="waitTimer()">
+      Wait
+    </button>
+    <button class="bg-accent-base p-2 rounded-10 mx-10" (click)="resetTimer()">
+      Reset
+    </button>
+  </div>
+
+  <div class="flex justify-center">{{ displayTime }}</div>
+</div>
+<form class="flex flex-col">
+  <mat-form-field class="example-full-width">
+    <mat-label>Name</mat-label>
+    <input
+      type="email"
+      matInput
+      [formControl]="emailFormControl"
+      placeholder="Ex. pat@example.com" />
+    <mat-error
+      *ngIf="
+        emailFormControl.hasError('email') &&
+        !emailFormControl.hasError('required')
+      ">
+      Please enter a valid email address
+    </mat-error>
+    <mat-error *ngIf="emailFormControl.hasError('required')">
+      Name is <strong>required</strong>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field class="example-full-width">
+    <mat-label>Surname</mat-label>
+    <input
+      type="text"
+      matInput
+      [formControl]="emailFormControl"
+      placeholder="Ex. pat@example.com" />
+    <mat-error
+      *ngIf="
+        emailFormControl.hasError('email') &&
+        !emailFormControl.hasError('required')
+      ">
+      Please enter a valid email address
+    </mat-error>
+    <mat-error *ngIf="emailFormControl.hasError('required')">
+      Name is <strong>required</strong>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Choose a date</mat-label>
+    <input matInput [matDatepicker]="picker" />
+    <mat-hint>MM/DD/YYYY</mat-hint>
+    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Framework</mat-label>
+    <mat-select>
+      <mat-option *ngFor="let framework of selectDataKeys" [value]="framework">
+        {{ framework }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Version</mat-label>
+    <mat-select>
+      <mat-option *ngFor="let food of selectData.angular" [value]="food">
+        {{ food }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field class="example-full-width">
+    <mat-label>Email</mat-label>
+    <input
+      type="email"
+      matInput
+      [formControl]="emailFormControl"
+      placeholder="Ex. pat@example.com" />
+    <mat-error
+      *ngIf="
+        emailFormControl.hasError('email') &&
+        !emailFormControl.hasError('required')
+      ">
+      Please enter a valid email address
+    </mat-error>
+    <mat-error *ngIf="emailFormControl.hasError('required')">
+      Name is <strong>required</strong>
+    </mat-error>
+  </mat-form-field>
+
+  <div>
+    <div>Hobbies:</div>
+    <mat-form-field class="px-5">
+      <mat-label>Name of hobbies</mat-label>
+      <input matInput placeholder="Ex. Pizza" value="" />
+    </mat-form-field>
+    <mat-form-field class="px-5">
+      <mat-label>Duration</mat-label>
+      <input matInput placeholder="Ex. Pizza" value="" />
+    </mat-form-field>
+  </div>
+</form>

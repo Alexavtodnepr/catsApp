@@ -162,7 +162,7 @@
     <button
       class="bg-secondary-base rounded-10 p-2 w-40 hover:bg-secondary-additional active:opacity-80 outline-none disabled:bg-gray-dark disabled:text-warning-base disabled:cursor-not-allowed"
       type="submit"
-      [disabled]="form.invalid || hobbyArray.length === 0">
+      [disabled]="(form.invalid && form.pending) || hobbyArray.length === 0">
       Send data
     </button>
   </div>

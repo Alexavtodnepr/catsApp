@@ -3,12 +3,15 @@ import {
   OnInit,
   ViewChild,
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  OnDestroy,
 } from '@angular/core';
 import { FormControl, Validators, FormGroup } from '@angular/forms';
 import { frameworksMockData } from 'src/app/mockData/mockData';
 import { MatSelectChange } from '@angular/material/select';
 import { MatTableDataSource, MatTable } from '@angular/material/table';
 import { EmailService } from 'src/app/services/email.service';
+import { bufferCount, filter, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-main-page',
@@ -16,7 +19,7 @@ import { EmailService } from 'src/app/services/email.service';
   styleUrls: ['./main-page.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MainPageComponent implements OnInit {
+export class MainPageComponent implements OnInit, OnDestroy {
   @ViewChild(MatTable) table!: MatTable<any>;
 
   showTask: boolean = false;
@@ -28,7 +31,11 @@ export class MainPageComponent implements OnInit {
   hobbyName!: FormControl;
   hobbyDuration!: FormControl;
   form!: FormGroup;
-  constructor(private emailValidService: EmailService) {
+  formPendingState!: Subscription;
+  constructor(
+    private emailValidService: EmailService,
+    private cd: ChangeDetectorRef,
+  ) {
     this.dataSource = new MatTableDataSource(this.hobbyArray);
   }
   ngOnInit() {
@@ -48,6 +55,12 @@ export class MainPageComponent implements OnInit {
       }),
       hobby: new FormControl([]),
     });
+    this.formPendingState = this.form.statusChanges
+      .pipe(
+        bufferCount(2, 1),
+        filter(([prevState]) => prevState === 'PENDING'),
+      )
+      .subscribe(() => this.cd.markForCheck());
     this.hobbyName = new FormControl('', Validators.required);
     this.hobbyDuration = new FormControl('', Validators.required);
   }
@@ -85,5 +98,9 @@ export class MainPageComponent implements OnInit {
   public checkEmail(event: Event) {
     // console.log(this.form.get('email')?.hasError('emailExistsValidator'));
     // console.log(event);
+  }
+
+  public ngOnDestroy() {
+    this.formPendingState!.unsubscribe();
   }
 }

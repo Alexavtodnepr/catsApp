@@ -16,7 +16,7 @@ export class EmailService {
     return of(email).pipe(
       delay(2000),
       map(email => {
-        const emails = ['test@test.test', 'zoaib@gmail.com'];
+        const emails = ['test@test.test'];
         return emails.includes(email);
       }),
     );

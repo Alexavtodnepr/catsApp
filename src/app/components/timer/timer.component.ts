@@ -57,8 +57,7 @@ export class TimerComponent implements OnInit {
     this.stopTimer();
   }
 
-  @HostListener('click')
-  onClick() {
+  oneClick() {
     if (this.clickTimeout) {
       clearTimeout(this.clickTimeout);
       this.clickTimeout = null;

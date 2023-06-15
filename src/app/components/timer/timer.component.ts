@@ -1,39 +1,37 @@
-import { Component, OnInit } from '@angular/core';
-import { bufferTime, filter, takeUntil, interval, Subject } from 'rxjs';
+import {
+  Component,
+  OnInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  HostListener,
+} from '@angular/core';
+import { takeUntil, interval, Subject } from 'rxjs';
 
 @Component({
   selector: 'app-timer',
   templateUrl: './timer.component.html',
   styleUrls: ['./timer.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TimerComponent implements OnInit {
+  private clickTimeout: any;
   timer$ = interval(1000);
   stopTimer$ = new Subject<void>();
-  doubleClick$ = new Subject<void>();
   timerRunning = false;
   timerStarted = false;
   time = 0;
   displayTime = '00:00:00';
-
+  constructor(private cd: ChangeDetectorRef) {}
   ngOnInit() {
     if (this.timerStarted) {
       this.startTimer();
     }
-
-    this.doubleClick$
-      .pipe(
-        bufferTime(300),
-        filter(clicks => clicks.length > 1),
-        takeUntil(this.stopTimer$),
-      )
-      .subscribe(() => {
-        this.stopTimer();
-      });
   }
 
   startStopTimer() {
     if (this.timerRunning) {
       this.stopTimer();
+      this.resetTimer();
     } else {
       this.startTimer();
     }
@@ -43,9 +41,9 @@ export class TimerComponent implements OnInit {
     this.timerStarted = true;
     this.timerRunning = true;
     this.stopTimer$.next();
-
     this.timer$.pipe(takeUntil(this.stopTimer$)).subscribe(() => {
       this.time++;
+      this.cd.markForCheck();
       this.displayTime = this.formatTime(this.time);
     });
   }
@@ -56,7 +54,21 @@ export class TimerComponent implements OnInit {
   }
 
   waitTimer() {
-    this.doubleClick$.next();
+    this.stopTimer();
+  }
+
+  @HostListener('click')
+  onClick() {
+    if (this.clickTimeout) {
+      clearTimeout(this.clickTimeout);
+      this.clickTimeout = null;
+      this.waitTimer();
+    } else {
+      this.clickTimeout = setTimeout(() => {
+        clearTimeout(this.clickTimeout);
+        this.clickTimeout = null;
+      }, 300);
+    }
   }
 
   resetTimer() {

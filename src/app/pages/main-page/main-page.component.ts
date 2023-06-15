@@ -37,7 +37,8 @@ export class MainPageComponent implements OnInit, OnDestroy {
   hobbyName!: FormControl;
   hobbyDuration!: FormControl;
   form!: FormGroup;
-  formPendingState!: Subscription;
+  formPendingState?: Subscription;
+  valueFormChanges?: Subscription;
   constructor(
     private emailValidService: EmailService,
     private cd: ChangeDetectorRef,
@@ -68,7 +69,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
         filter(([prevState]) => prevState === 'PENDING'),
       )
       .subscribe(() => this.cd.markForCheck());
-    this.form
+    this.valueFormChanges = this.form
       .get('dateOfBirth')
       ?.valueChanges.pipe(debounceTime(300))
       .subscribe((value: Date) => {
@@ -122,5 +123,6 @@ export class MainPageComponent implements OnInit, OnDestroy {
   }
   public ngOnDestroy() {
     this.formPendingState!.unsubscribe();
+    this.valueFormChanges!.unsubscribe();
   }
 }

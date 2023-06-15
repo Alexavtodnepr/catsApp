@@ -11,13 +11,17 @@ import { frameworksMockData } from 'src/app/mockData/mockData';
 import { MatSelectChange } from '@angular/material/select';
 import { MatTableDataSource, MatTable } from '@angular/material/table';
 import { EmailService } from 'src/app/services/email.service';
-import { bufferCount, filter, Subscription } from 'rxjs';
+import { bufferCount, filter, Subscription, debounceTime } from 'rxjs';
+import { IHobby } from 'src/app/models/hobby';
+import { IForm } from 'src/app/models/form';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-main-page',
   templateUrl: './main-page.component.html',
   styleUrls: ['./main-page.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [DatePipe],
 })
 export class MainPageComponent implements OnInit, OnDestroy {
   @ViewChild(MatTable) table!: MatTable<any>;
@@ -26,7 +30,9 @@ export class MainPageComponent implements OnInit, OnDestroy {
   selectData = frameworksMockData;
   selectDataKeys = Object.keys(this.selectData);
   versionArray!: string[];
-  hobbyArray: any[] = [];
+  formattedDate!: string;
+  startDate = new Date(1990, 0, 1);
+  hobbyArray: IHobby[] = [];
   dataSource!: MatTableDataSource<any>;
   hobbyName!: FormControl;
   hobbyDuration!: FormControl;
@@ -35,6 +41,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
   constructor(
     private emailValidService: EmailService,
     private cd: ChangeDetectorRef,
+    private datePipe: DatePipe,
   ) {
     this.dataSource = new MatTableDataSource(this.hobbyArray);
   }
@@ -61,12 +68,28 @@ export class MainPageComponent implements OnInit, OnDestroy {
         filter(([prevState]) => prevState === 'PENDING'),
       )
       .subscribe(() => this.cd.markForCheck());
+    this.form
+      .get('dateOfBirth')
+      ?.valueChanges.pipe(debounceTime(300))
+      .subscribe((value: Date) => {
+        this.formattedDate = this.formatDate(value);
+      });
     this.hobbyName = new FormControl('', Validators.required);
     this.hobbyDuration = new FormControl('', Validators.required);
   }
 
   public OnSubmit() {
-    console.log(this.form.value);
+    const formData: IForm = {
+      firstName: this.form.get('firstName')?.value,
+      lastName: this.form.get('lastName')?.value,
+      dateOfBirth: this.formattedDate,
+      framework: this.form.get('framework')?.value,
+      frameworkVersion: this.form.get('frameworkVersion')?.value,
+      email: this.form.get('email')?.value,
+      hobby: this.form.get('hobby')?.value,
+    };
+    console.log(formData);
+    alert(JSON.stringify(formData));
   }
 
   public frameworkSelected(event: MatSelectChange) {
@@ -76,7 +99,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
   }
 
   public addHobby() {
-    const newHobby = {
+    const newHobby: IHobby = {
       name: this.hobbyName.value,
       duration: this.hobbyDuration.value,
     };
@@ -94,12 +117,9 @@ export class MainPageComponent implements OnInit, OnDestroy {
     if (this.table) this.table.renderRows();
     this.form.get('hobby')?.setValue(this.hobbyArray);
   }
-
-  public checkEmail(event: Event) {
-    // console.log(this.form.get('email')?.hasError('emailExistsValidator'));
-    // console.log(event);
+  formatDate(date: Date): string {
+    return this.datePipe.transform(date, 'dd-MM-yyyy') || '';
   }
-
   public ngOnDestroy() {
     this.formPendingState!.unsubscribe();
   }

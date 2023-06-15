@@ -15,6 +15,7 @@ import { TimerComponent } from './components/timer/timer.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [AppComponent, MainPageComponent, TimerComponent],
@@ -32,6 +33,7 @@ import { MatTableModule } from '@angular/material/table';
     MatButtonModule,
     MatIconModule,
     MatTableModule,
+    MatProgressSpinnerModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

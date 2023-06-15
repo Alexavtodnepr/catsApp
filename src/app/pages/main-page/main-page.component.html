@@ -63,6 +63,7 @@
   <mat-form-field class="example-full-width">
     <mat-label>Email</mat-label>
     <input
+      (input)="checkEmail($event)"
       type="email"
       matInput
       formControlName="email"
@@ -74,9 +75,20 @@
       ">
       Please enter a valid email address
     </mat-error>
+    <mat-error *ngIf="form.controls['email'].hasError('emailExists')"
+      >Email already exists</mat-error
+    >
     <mat-error *ngIf="form.controls['email'].hasError('required')">
       Name is <strong>required</strong>
     </mat-error>
+    <mat-progress-spinner
+      class="mr-2"
+      *ngIf="form.controls['email'].pending"
+      matSuffix
+      [color]="'warn'"
+      [mode]="'indeterminate'"
+      [diameter]="20">
+    </mat-progress-spinner>
   </mat-form-field>
 
   <div>

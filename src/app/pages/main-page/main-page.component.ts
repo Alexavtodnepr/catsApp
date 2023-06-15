@@ -2,13 +2,13 @@ import {
   Component,
   OnInit,
   ViewChild,
-  AfterViewInit,
   ChangeDetectionStrategy,
 } from '@angular/core';
 import { FormControl, Validators, FormGroup } from '@angular/forms';
 import { frameworksMockData } from 'src/app/mockData/mockData';
 import { MatSelectChange } from '@angular/material/select';
 import { MatTableDataSource, MatTable } from '@angular/material/table';
+import { EmailService } from 'src/app/services/email.service';
 
 @Component({
   selector: 'app-main-page',
@@ -28,7 +28,7 @@ export class MainPageComponent implements OnInit {
   hobbyName!: FormControl;
   hobbyDuration!: FormControl;
   form!: FormGroup;
-  constructor() {
+  constructor(private emailValidService: EmailService) {
     this.dataSource = new MatTableDataSource(this.hobbyArray);
   }
   ngOnInit() {
@@ -41,8 +41,12 @@ export class MainPageComponent implements OnInit {
         { value: this.versionArray, disabled: true },
         Validators.required,
       ),
-      email: new FormControl('', [Validators.required, Validators.email]),
-      hobby: new FormControl({}),
+      email: new FormControl('', {
+        validators: [Validators.required, Validators.email],
+        asyncValidators: this.emailValidService.uniqueEmailValidator(),
+        updateOn: 'blur',
+      }),
+      hobby: new FormControl([]),
     });
     this.hobbyName = new FormControl('', Validators.required);
     this.hobbyDuration = new FormControl('', Validators.required);
@@ -76,5 +80,10 @@ export class MainPageComponent implements OnInit {
     this.dataSource.data = this.hobbyArray;
     if (this.table) this.table.renderRows();
     this.form.get('hobby')?.setValue(this.hobbyArray);
+  }
+
+  public checkEmail(event: Event) {
+    // console.log(this.form.get('email')?.hasError('emailExistsValidator'));
+    // console.log(event);
   }
 }

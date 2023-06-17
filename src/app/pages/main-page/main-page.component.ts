@@ -90,6 +90,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
       hobby: this.form.get('hobby')?.value,
     };
     console.log(formData);
+
     alert(JSON.stringify(formData));
   }
 

@@ -1,0 +1,11 @@
+<div *ngIf="cat; else loader">
+  <ul class="px-2">
+    <li>Name Breeds: {{ cat.breeds[0].name }}</li>
+    <li>Description: {{ cat.breeds[0].description }}</li>
+    <li>Weight: {{ cat.breeds[0].weight.metric + 'kg' }}</li>
+  </ul>
+</div>
+<ng-template #loader
+  ><div class="flex justify-center items-center">
+    <mat-spinner [diameter]="50"></mat-spinner></div
+></ng-template>

@@ -1,0 +1,40 @@
+<header
+  class="bg-gray-800 wide-container text-white py-4 px-6 flex justify-between items-center">
+  <form class="content-container flex items-center">
+    <h2 class="px-5">WHT logo</h2>
+    <mat-form-field>
+      <input
+        type="text"
+        placeholder="Search..."
+        matInput
+        class="py-2 px-3 text-gray-card"
+        [formControl]="limitControl" />
+      <mat-error *ngIf="limitControl.invalid"
+        >value cannot be more than 100</mat-error
+      >
+    </mat-form-field>
+    <div class="m-5">
+      <button mat-flat-button color="primary" (click)="resetAllParams()">
+        Reset
+      </button>
+    </div>
+    <mat-form-field>
+      <mat-label>Select category</mat-label>
+      <mat-select
+        class="px-3 text-gray-card rounded-md"
+        [formControl]="breedsControl">
+        <mat-option value="">All categories</mat-option>
+        <ng-container *ngIf="breeds; else loader">
+          <mat-option *ngFor="let breed of breeds" [value]="breed.id">{{
+            breed.name
+          }}</mat-option>
+        </ng-container>
+        <ng-template #loader>
+          <mat-option>
+            <mat-spinner [diameter]="50"></mat-spinner>
+          </mat-option>
+        </ng-template>
+      </mat-select>
+    </mat-form-field>
+  </form>
+</header>

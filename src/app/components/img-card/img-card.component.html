@@ -1,0 +1,26 @@
+<div class="bg-gray-200 p-4 rounded-md">
+  <div
+    class="aspect-w-1 aspect-h-1 flex justify-center relative"
+    (mouseenter)="showInfoFlag = true"
+    (mouseleave)="showInfoFlag = false">
+    <img
+      *ngIf="img; else loader"
+      src="{{ img.url }}"
+      alt="{{ img.id }}"
+      class="object-cover w-100 h-70" />
+    <div
+      class="absolute bottom-0 rounded-full bg-gray-white text-accent-base flex justify-center items-center w-10 h-10"
+      *ngIf="!showInfoFlag && img.breeds.length > 0">
+      <mat-icon>remove_red_eye</mat-icon>
+    </div>
+    <div
+      *ngIf="showInfoFlag && img.breeds.length > 0"
+      class="bg-gray-card position absolute top-0 w-100 h-70 opacity-60">
+      <app-cats-info [catId]="img.id"></app-cats-info>
+    </div>
+    <ng-template #loader
+      ><div class="flex justify-center items-center">
+        <mat-spinner [diameter]="50"></mat-spinner></div
+    ></ng-template>
+  </div>
+</div>

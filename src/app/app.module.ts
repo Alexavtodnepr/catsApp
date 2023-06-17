@@ -7,11 +7,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MainPageComponent } from './pages/main-page/main-page.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
-import { TimerComponent } from './components/timer/timer.component';
 import { MaterialModule } from 'src/app/shared/material/material.module';
 
 @NgModule({
-  declarations: [AppComponent, MainPageComponent, TimerComponent],
+  declarations: [AppComponent, MainPageComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

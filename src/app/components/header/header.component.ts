@@ -33,8 +33,10 @@ export class HeaderComponent implements OnInit {
     });
     this.breedsControl.valueChanges.subscribe((selectedValue: string) => {
       this.changeSearch(+this.limitControl.value, selectedValue);
+      this.cd.markForCheck();
     });
     this.limitControl.valueChanges.subscribe((value: string) => {
+      this.cd.markForCheck();
       if (this.limitControl.valid) {
         this.changeSearch(+value, this.breedsControl.value);
       }

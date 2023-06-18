@@ -14,6 +14,7 @@ import { ImgCardComponent } from './components/img-card/img-card.component';
 import { CatsInfoComponent } from './components/img-card/cats-info/cats-info.component';
 import { NgxsModule } from '@ngxs/store';
 import { CatState } from 'src/app/store/catArray.state';
+import { ImageDialogComponent } from './components/img-card/image-dialog/image-dialog.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { CatState } from 'src/app/store/catArray.state';
     HeaderComponent,
     ImgCardComponent,
     CatsInfoComponent,
+    ImageDialogComponent,
   ],
   imports: [
     BrowserModule,

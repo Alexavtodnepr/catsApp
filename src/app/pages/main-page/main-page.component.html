@@ -1,7 +1,7 @@
 <div class="content-container mx-auto">
   <div
     class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-6 my-10"
-    *ngIf="catsImages; else loader">
+    *ngIf="catsImages.length > 0; else loader">
     <app-img-card *ngFor="let img of catsImages" [img]="img"></app-img-card>
   </div>
   <ng-template #loader

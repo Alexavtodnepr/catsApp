@@ -7,6 +7,7 @@ import {
 import { CatsApiService } from 'src/app/services/cats-api.service';
 import { FormControl, Validators } from '@angular/forms';
 import { IBreed } from 'src/app/models/breed';
+import { debounceTime } from 'rxjs';
 
 @Component({
   selector: 'app-header',
@@ -25,7 +26,10 @@ export class HeaderComponent implements OnInit {
 
   public ngOnInit() {
     this.breedsControl = new FormControl('');
-    this.limitControl = new FormControl(10, Validators.max(100));
+    this.limitControl = new FormControl(10, [
+      Validators.max(100),
+      Validators.min(1),
+    ]);
     this.changeSearch(+this.limitControl.value, this.breedsControl.value);
     this.catsServ.getAllBreeds().subscribe((el: IBreed[]) => {
       this.breeds = el;
@@ -35,12 +39,14 @@ export class HeaderComponent implements OnInit {
       this.changeSearch(+this.limitControl.value, selectedValue);
       this.cd.markForCheck();
     });
-    this.limitControl.valueChanges.subscribe((value: string) => {
-      this.cd.markForCheck();
-      if (this.limitControl.valid) {
-        this.changeSearch(+value, this.breedsControl.value);
-      }
-    });
+    this.limitControl.valueChanges
+      .pipe(debounceTime(300))
+      .subscribe((value: string) => {
+        this.cd.markForCheck();
+        if (this.limitControl.valid) {
+          this.changeSearch(+value, this.breedsControl.value);
+        }
+      });
   }
 
   changeSearch(limit: number, selectedValue: string) {

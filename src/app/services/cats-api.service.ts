@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { tap, Observable } from 'rxjs';
+import { tap, Observable, delay } from 'rxjs';
 import { Store } from '@ngxs/store';
 import { AddCats } from 'src/app/store/catArray.action';
 import { ICat } from 'src/app/models/cat';
@@ -33,6 +33,10 @@ export class CatsApiService {
       )
       .pipe(
         tap((cats: ICat[]) => {
+          this.store.dispatch(new AddCats([]));
+        }),
+        delay(200),
+        tap((cats: ICat[]) => {
           this.store.dispatch(new AddCats(cats));
         }),
       );
@@ -43,7 +47,13 @@ export class CatsApiService {
       .get<ICat[]>(
         this.apiImage + 'search?limit=' + numb + '&api_key=' + this.apiKey,
       )
-      .pipe(tap((cats: ICat[]) => this.store.dispatch(new AddCats(cats))));
+      .pipe(
+        tap((cats: ICat[]) => {
+          this.store.dispatch(new AddCats([]));
+        }),
+        delay(200),
+        tap((cats: ICat[]) => this.store.dispatch(new AddCats(cats))),
+      );
   }
 
   getInfoById(id: string) {

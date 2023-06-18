@@ -4,13 +4,15 @@
     <h2 class="px-5">WHT logo</h2>
     <mat-form-field>
       <input
-        type="text"
+        type="number"
         placeholder="Search..."
         matInput
         class="py-2 px-3 text-gray-card"
+        min="1"
+        max="100"
         [formControl]="limitControl" />
       <mat-error *ngIf="limitControl.invalid"
-        >value cannot be more than 100</mat-error
+        >value cannot be more than 100 and less than 1</mat-error
       >
     </mat-form-field>
     <div class="m-5">
